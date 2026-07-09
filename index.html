@@ -2397,6 +2397,8 @@ function uploadCSS(input) {
   };
   reader.readAsText(file);
 }
+
+function uploadThreshold(input) {
   if (!input.files[0]) return;
   setStatus('s-thresh', 'loading', '⏳ Reading…');
   const reader = new FileReader();
