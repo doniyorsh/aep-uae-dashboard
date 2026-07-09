@@ -656,7 +656,7 @@ footer b{color:var(--t2);font-weight:700}
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
         Upload XLSX
       </label>
-      <input type="file" id="f-thresh" accept=".xlsx,.xls" style="display:none" onchange="uploadThreshold(this)">
+      <input type="file" id="f-thresh" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadThreshold(this)">
       <span id="s-thresh" class="up-status"></span>
     </div>
     <div class="up-divider"></div>
@@ -666,20 +666,10 @@ footer b{color:var(--t2);font-weight:700}
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
         Upload XLSX
       </label>
-      <input type="file" id="f-report" accept=".xlsx,.xls" style="display:none" onchange="uploadReport(this)">
+      <input type="file" id="f-report" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadReport(this)">
       <span id="s-report" class="up-status"></span>
     </div>
     <span class="up-strip-date" id="date-t1">Snapshot: 4 June 2026</span>
-    <div class="up-divider"></div>
-    <div class="up-item">
-      <span class="up-item-lbl">Custom CSS</span>
-      <label class="up-file-btn" for="f-css" style="background:rgba(107,53,184,.08);border-color:rgba(107,53,184,.3);color:#6b35b8">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
-        Upload CSS
-      </label>
-      <input type="file" id="f-css" accept=".css" style="display:none" onchange="uploadCSS(this)">
-      <span id="s-css" class="up-status"></span>
-    </div>
   </div>
 
 <div class="main">
@@ -768,20 +758,10 @@ footer b{color:var(--t2);font-weight:700}
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
         Upload XLSX
       </label>
-      <input type="file" id="f-report2" accept=".xlsx,.xls" style="display:none" onchange="uploadReport2(this)">
+      <input type="file" id="f-report2" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadReport2(this)">
       <span id="s-report2" class="up-status"></span>
     </div>
     <span class="up-strip-date" id="date-t2">Snapshot: 4 June 2026</span>
-    <div class="up-divider"></div>
-    <div class="up-item">
-      <span class="up-item-lbl">Custom CSS</span>
-      <label class="up-file-btn" for="f-css2" style="background:rgba(107,53,184,.08);border-color:rgba(107,53,184,.3);color:#6b35b8">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
-        Upload CSS
-      </label>
-      <input type="file" id="f-css2" accept=".css" style="display:none" onchange="uploadCSS(this)">
-      <span id="s-css2" class="up-status"></span>
-    </div>
   </div>
 
 <div class="main">
@@ -914,7 +894,7 @@ footer b{color:var(--t2);font-weight:700}
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
         Upload XLSX
       </label>
-      <input type="file" id="f-lollipop" accept=".xlsx,.xls" style="display:none" onchange="uploadLollipop(this)">
+      <input type="file" id="f-lollipop" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadLollipop(this)">
       <span id="s-lollipop" class="up-status"></span>
     </div>
     <div class="up-divider"></div>
@@ -924,20 +904,10 @@ footer b{color:var(--t2);font-weight:700}
         <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
         Upload XLSX
       </label>
-      <input type="file" id="f-bars" accept=".xlsx,.xls" style="display:none" onchange="uploadBars(this)">
+      <input type="file" id="f-bars" accept=".xlsx,.xls,.csv" style="display:none" onchange="uploadBars(this)">
       <span id="s-bars" class="up-status"></span>
     </div>
     <span class="up-strip-date" id="date-t3">Source: HQS Pop · 15 Jun 2026</span>
-    <div class="up-divider"></div>
-    <div class="up-item">
-      <span class="up-item-lbl">Custom CSS</span>
-      <label class="up-file-btn" for="f-css3" style="background:rgba(107,53,184,.08);border-color:rgba(107,53,184,.3);color:#6b35b8">
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 11V3m-3 3l3-3 3 3"/><path d="M3 13h10"/></svg>
-        Upload CSS
-      </label>
-      <input type="file" id="f-css3" accept=".css" style="display:none" onchange="uploadCSS(this)">
-      <span id="s-css3" class="up-status"></span>
-    </div>
   </div>
 
 <div class="main">
@@ -954,7 +924,18 @@ footer b{color:var(--t2);font-weight:700}
   <div class="pri-wrap" id="pri-wrap"><!-- Rendered by JS --></div>
 
   <!-- SECTION 2: PROGRESS BY COUNTRY, HQ AND PRIORITY -->
-  <div class="sec">Progress by Country, HQ and Priority <span style="font-size:10px;font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0">— from HQS Pop Bars · by Account + ASCs &amp; Advisors</span></div>
+  <div class="sec" style="justify-content:space-between">
+    <span>Progress by Country, HQ and Priority <span style="font-size:10px;font-weight:400;color:var(--t3);text-transform:none;letter-spacing:0">— from HQS Pop Bars</span></span>
+    <select id="t3-acct-sel" onchange="renderBars()"
+      style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg-c);color:var(--t1);cursor:pointer;outline:none;min-width:160px">
+      <option value="ALL">🌍 Overall UAE</option>
+      <option value="SHARAF DG L.L.C (924297)">Sharaf DG</option>
+      <option value="EMAX - HQ (1774435)">Emax</option>
+      <option value="JUMBO ELECTRONICS (924628)">Jumbo</option>
+      <option value="VIRGIN MEGASTORE (924618)">Virgin</option>
+      <option value="DU (962811)">DU</option>
+    </select>
+  </div>
 
   <div style="background:linear-gradient(90deg,rgba(0,113,227,.08),transparent);border-left:4px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:10px 18px;margin-bottom:16px;font-size:13px;font-weight:700;color:var(--blue)">🇦🇪 UNITED ARAB EMIRATES</div>
 
@@ -1891,6 +1872,13 @@ function renderBars() {
   const sec = document.getElementById('bars-section');
   if (!sec) return;
 
+  // Account filter from dropdown
+  const sel        = document.getElementById('t3-acct-sel');
+  const filterKey  = sel ? sel.value : 'ALL';
+  const configList = filterKey === 'ALL'
+    ? HQ_CONFIG.filter(c => c.key !== 'DUBAI DUTY FREE (924619)')
+    : HQ_CONFIG.filter(c => c.key === filterKey);
+
   // ── Helper: single training row ──
   // Shows: Training Name >> Progress bar (80% marker) >> % >> done/total >> status
   function trainingRow(priName, data, isAlt) {
@@ -2046,8 +2034,8 @@ function renderBars() {
     </div>`;
   }
 
-  // All CC/C/C+ account cards — each in a 2-col grid (training rows | insight)
-  HQ_CONFIG.forEach((hqCfg) => {
+  // All CC/C/C+ account cards — filtered by dropdown
+  configList.forEach((hqCfg) => {
     const hqData = BARS[hqCfg.key];
     if (!hqData) return;
     const ccPris = Object.entries(hqData).filter(([, auds]) => auds['Multibrand CC, C, C+']);
@@ -2094,14 +2082,13 @@ function pctColor(p) {
   return p >= 80 ? '#1a8a3c' : p >= 60 ? '#b85a00' : '#c0001f';
 }
 
-// ── LOLLIPOP XLSX Upload ──
+// ── LOLLIPOP Upload ──
 function uploadLollipop(input) {
   if (!input.files[0]) return;
   setStatus('s-lollipop','loading','⏳ Reading…');
-  const reader = new FileReader();
-  reader.onload = e => {
+  readFileAsBuffer(input.files[0], buf => {
     try {
-      const wb      = XLSX.read(e.target.result, {type:'array'});
+      const wb      = XLSX.read(buf, {type:'array'});
       const ws      = wb.Sheets[wb.SheetNames[0]];
       const rawRows = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
       if (rawRows.length < 2) throw new Error('Empty sheet');
@@ -2190,18 +2177,16 @@ function uploadLollipop(input) {
       setStatus('s-lollipop','error','⚠ ' + err.message);
       console.error('uploadLollipop:', err);
     }
-  };
-  reader.readAsArrayBuffer(input.files[0]);
+  });
 }
 
-// ── BARS XLSX Upload ──
+// ── BARS Upload ──
 function uploadBars(input) {
   if (!input.files[0]) return;
   setStatus('s-bars','loading','⏳ Reading…');
-  const reader = new FileReader();
-  reader.onload = e => {
+  readFileAsBuffer(input.files[0], buf => {
     try {
-      const wb = XLSX.read(e.target.result, {type:'array'});
+      const wb = XLSX.read(buf, {type:'array'});
 
       // ── Try every sheet — use the one with most rows ──
       let bestSheet = wb.SheetNames[0], bestLen = 0;
@@ -2363,8 +2348,7 @@ function uploadBars(input) {
       setStatus('s-bars','error','⚠ ' + err.message);
       console.error('uploadBars:', err);
     }
-  };
-  reader.readAsArrayBuffer(input.files[0]);
+  });
 }
 
 // ═══════════════════════════════════════════
@@ -2850,13 +2834,31 @@ function parseOverviewForCQ(ws) {
   }
 }
 
+// ── CSV helper: convert CSV text → SheetJS ArrayBuffer via XLSX.read ──
+function csvToBuffer(text) {
+  const wb = XLSX.read(text, { type: 'string' });
+  const buf = XLSX.write(wb, { type: 'array', bookType: 'xlsx' });
+  return buf.buffer;
+}
+
+function readFileAsBuffer(file, onBuffer) {
+  const isCsv = file.name.toLowerCase().endsWith('.csv');
+  const reader = new FileReader();
+  if (isCsv) {
+    reader.onload = e => onBuffer(csvToBuffer(e.target.result));
+    reader.readAsText(file);
+  } else {
+    reader.onload = e => onBuffer(e.target.result);
+    reader.readAsArrayBuffer(file);
+  }
+}
+
 function uploadReport(input) {
   if (!input.files[0]) return;
   setStatus('s-report','loading','⏳ Reading…');
-  const reader = new FileReader();
-  reader.onload = e => {
+  readFileAsBuffer(input.files[0], buf => {
     try {
-      parseReportXLSX(e.target.result);
+      parseReportXLSX(buf);
       renderAll();
       renderT4();
       stampDate('date-t1');
@@ -2864,17 +2866,15 @@ function uploadReport(input) {
       setStatus('s-report','','✓ '+input.files[0].name);
       toast('AEP Report loaded — All tabs refreshed');
     } catch(err) { setStatus('s-report','error','⚠ '+err.message); console.error(err); }
-  };
-  reader.readAsArrayBuffer(input.files[0]);
+  });
 }
 
 function uploadReport2(input) {
   if (!input.files[0]) return;
   setStatus('s-report2','loading','⏳ Reading…');
-  const reader = new FileReader();
-  reader.onload = e => {
+  readFileAsBuffer(input.files[0], buf => {
     try {
-      parseReportXLSX(e.target.result);
+      parseReportXLSX(buf);
       renderAll();
       renderT4();
       stampDate('date-t2');
@@ -2882,8 +2882,7 @@ function uploadReport2(input) {
       setStatus('s-report2','','✓ '+input.files[0].name);
       toast('AEP Report loaded — All tabs refreshed');
     } catch(err) { setStatus('s-report2','error','⚠ '+err.message); console.error(err); }
-  };
-  reader.readAsArrayBuffer(input.files[0]);
+  });
 }
 
 // ═══════════════════════════════════════════
