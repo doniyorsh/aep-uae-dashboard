@@ -826,11 +826,11 @@ footer b{color:var(--t2);font-weight:700}
     <select id="trn-partner-sel" onchange="renderTraining()"
       style="font-size:12px;font-weight:700;padding:5px 12px;border-radius:8px;border:1.5px solid var(--border2);background:var(--bg-c);color:var(--t1);cursor:pointer;outline:none;min-width:160px">
       <option value="ALL">🌍 Overall UAE</option>
-      <option value="SHARAF DG L.L.C (924297)">Sharaf DG</option>
-      <option value="EMAX - HQ (1774435)">Emax</option>
-      <option value="JUMBO ELECTRONICS (924628)">Jumbo</option>
-      <option value="VIRGIN MEGASTORE (924618)">Virgin</option>
-      <option value="DU (962811)">DU</option>
+      <option value="SHARAF DG L.L.C">Sharaf DG</option>
+      <option value="EMAX - HQ">Emax</option>
+      <option value="JUMBO ELECTRONICS">Jumbo</option>
+      <option value="VIRGIN MEGASTORE">Virgin</option>
+      <option value="DU">DU</option>
     </select>
   </div>
   <div id="t2-cand-wrap" style="display:grid;grid-template-columns:1fr 260px;gap:0;border:1.5px solid var(--border2);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:16px">
@@ -1071,7 +1071,50 @@ footer b{color:var(--t2);font-weight:700}
 // ═══════════════════════════════════════════
 //  INITIAL DATA STATE
 // ═══════════════════════════════════════════
+// ── Account key normalisation ──
+// ACCTS = canonical short keys used everywhere in D.byAcct, T4_DATA.users, HQ_CONFIG
+// ACCT_ALIASES maps ANY uploaded variant → canonical short key
 const ACCTS = ['SHARAF DG L.L.C','EMAX - HQ','JUMBO ELECTRONICS','VIRGIN MEGASTORE','DU'];
+
+const ACCT_ALIASES = {
+  // Sharaf DG variants
+  'SHARAF DG L.L.C':          'SHARAF DG L.L.C',
+  'SHARAF DG L.L.C (924297)': 'SHARAF DG L.L.C',
+  'SHARAF DG LLC':             'SHARAF DG L.L.C',
+  'SHARAF DG':                 'SHARAF DG L.L.C',
+  // Emax variants
+  'EMAX - HQ':                 'EMAX - HQ',
+  'EMAX - HQ (1774435)':      'EMAX - HQ',
+  'EMAX':                      'EMAX - HQ',
+  'EMAX HQ':                   'EMAX - HQ',
+  // Jumbo variants
+  'JUMBO ELECTRONICS':         'JUMBO ELECTRONICS',
+  'JUMBO ELECTRONICS (924628)':'JUMBO ELECTRONICS',
+  'JUMBO':                     'JUMBO ELECTRONICS',
+  // Virgin variants
+  'VIRGIN MEGASTORE':          'VIRGIN MEGASTORE',
+  'VIRGIN MEGASTORE (924618)': 'VIRGIN MEGASTORE',
+  'VIRGIN':                    'VIRGIN MEGASTORE',
+  // DU variants
+  'DU':                        'DU',
+  'DU (962811)':               'DU',
+  'DU TELECOM':                'DU',
+};
+
+// Normalise any raw account string from an uploaded file → canonical ACCTS key
+function normaliseAcct(raw) {
+  const s = String(raw || '').trim();
+  if (ACCT_ALIASES[s]) return ACCT_ALIASES[s];
+  const lo = s.toLowerCase();
+  for (const [k, v] of Object.entries(ACCT_ALIASES)) {
+    if (lo === k.toLowerCase()) return v;
+  }
+  // Partial: check if raw contains any canonical key
+  for (const key of ACCTS) {
+    if (s.toUpperCase().includes(key)) return key;
+  }
+  return s;
+}
 const ACCT_LABELS = {
   'SHARAF DG L.L.C': {label:'Sharaf DG', color:'#1267d4'},
   'EMAX - HQ':       {label:'Emax',      color:'#6b35b8'},
@@ -1372,18 +1415,16 @@ function renderTraining() {
     : [];
 
   // For partner filter: get only users belonging to selected account
+  // filterAcct values now match T4_DATA.users keys exactly ('SHARAF DG L.L.C' etc.)
   function usersForAcct(acctKey) {
     if (acctKey === 'ALL') return allUsers;
-    // Match by T4_DATA.users key — try exact then alias
-    const entries = Object.entries(T4_DATA.users);
-    // Direct key match
-    const direct = entries.find(([k]) => k === acctKey || HQ_KEY_ALIASES[k] === acctKey);
-    if (direct) return direct[1];
-    // Fallback: match by short alias
-    const shortNames = { 'SHARAF DG L.L.C (924297)': 'Sharaf DG', 'EMAX - HQ (1774435)': 'Emax',
-      'JUMBO ELECTRONICS (924628)': 'Jumbo', 'VIRGIN MEGASTORE (924618)': 'Virgin', 'DU (962811)': 'DU' };
-    const shortName = shortNames[acctKey] || acctKey;
-    const match = entries.find(([k]) => k === shortName || k.toLowerCase().includes(shortName.toLowerCase()));
+    const users = T4_DATA.users[acctKey];
+    if (users) return users;
+    // Fallback: partial match
+    const match = Object.entries(T4_DATA.users).find(([k]) =>
+      k.toLowerCase().includes(acctKey.toLowerCase()) ||
+      acctKey.toLowerCase().includes(k.toLowerCase())
+    );
     return match ? match[1] : allUsers;
   }
 
@@ -2279,26 +2320,24 @@ function uploadBars(input) {
       }
 
       // ── Rebuild BARS — normalise HQ keys to match HQ_CONFIG ──
-      // Build reverse alias map: full upload value → canonical HQ_CONFIG key
-      const HQ_REVERSE = {};
-      Object.entries(HQ_KEY_ALIASES).forEach(([short, full]) => {
-        HQ_REVERSE[full.toLowerCase()]  = full;
-        HQ_REVERSE[short.toLowerCase()] = full;
-      });
-      function normaliseHQ(raw) {
-        const lo = String(raw).trim().toLowerCase();
-        // exact match first
-        if (HQ_REVERSE[lo]) return HQ_REVERSE[lo];
-        // partial match — find any alias key that the raw string contains
-        for (const [k, v] of Object.entries(HQ_REVERSE)) {
-          if (lo.includes(k) || k.includes(lo)) return v;
-        }
-        return String(raw).trim(); // fall back to raw
-      }
-
       const newBars = {};
       filled.forEach(row => {
-        const hqKey = normaliseHQ(row.hq);
+        // normalise via HQ_KEY_ALIASES — maps short/upload variants → BARS canonical key
+        const raw = String(row.hq || '').trim();
+        let hqKey = HQ_KEY_ALIASES[raw] || HQ_KEY_ALIASES[raw.toUpperCase()] || raw;
+        // If still no match try ACCT_ALIASES → then map canonical → BARS key
+        if (!hqKey || !HQ_CONFIG.find(c => c.key === hqKey)) {
+          const canon = normaliseAcct(raw); // → 'SHARAF DG L.L.C' etc.
+          // Map canonical ACCTS key → BARS key (which uses the full ID form)
+          const CANON_TO_BARS = {
+            'SHARAF DG L.L.C':   'SHARAF DG L.L.C (924297)',
+            'EMAX - HQ':         'EMAX - HQ (1774435)',
+            'JUMBO ELECTRONICS': 'JUMBO ELECTRONICS (924628)',
+            'VIRGIN MEGASTORE':  'VIRGIN MEGASTORE (924618)',
+            'DU':                'DU (962811)',
+          };
+          hqKey = CANON_TO_BARS[canon] || hqKey;
+        }
         if (!newBars[hqKey])            newBars[hqKey]            = {};
         if (!newBars[hqKey][row.pri])   newBars[hqKey][row.pri]   = {};
         const ex = newBars[hqKey][row.pri][row.aud];
@@ -2309,7 +2348,7 @@ function uploadBars(input) {
           newBars[hqKey][row.pri][row.aud] = { done: row.done, total: row.total, pct: row.pct };
         }
       });
-      console.log('[Bars] normalised keys:', Object.keys(newBars));
+      console.log('[Bars] keys after normalise:', Object.keys(newBars));
 
       BARS = newBars;
       renderTab3();
@@ -2483,10 +2522,14 @@ function parseMonthlySheet(ws) {
   // ── Filter to CC/C/C+ only ──
   const all_cc = uae.filter(r => TARGET.includes(String(r[colLevel] || '').trim()));
 
-  // ── Filter strictly to our 5 accounts ──
-  const acct_cc = all_cc.filter(r => ACCTS.includes(String(r[colAcct] || '').trim()));
+  // ── Filter strictly to our 5 accounts — using normaliseAcct() ──
+  const acct_cc = all_cc.filter(r => ACCTS.includes(normaliseAcct(String(r[colAcct] || ''))));
 
-  if (!acct_cc.length) return;
+  if (!acct_cc.length) {
+    console.warn('[parseMonthly] No matching rows for ACCTS. Sample account values:',
+      [...new Set(all_cc.slice(0,10).map(r => String(r[colAcct]||'')))]);
+    return;
+  }
 
   // ── Total programme count = ACCTS only ──
   D.totalProg = acct_cc.length;
@@ -2494,7 +2537,7 @@ function parseMonthlySheet(ws) {
   const totProg = {champ: 0, cplus: 0, elig: 0};
 
   ACCTS.forEach(key => {
-    const sub   = acct_cc.filter(r => String(r[colAcct] || '').trim() === key);
+    const sub = acct_cc.filter(r => normaliseAcct(String(r[colAcct] || '')) === key);
     const n     = sub.length;
     if (!n) return;
 
@@ -2696,10 +2739,10 @@ function parseOverviewForCQ(ws) {
 
   const TARGET = ['Apple Champion candidate', 'Apple Champion', 'Apple Champion+'];
 
-  // Strictly filter to UAE + ACCTS + CC/C/C+
+  // Strictly filter to UAE + ACCTS + CC/C/C+ — normalise account names
   const rows = dataRows.filter(r => {
     const country = String(r[iCountry] || '').toUpperCase();
-    const acct    = String(r[iAcct]    || '').trim();
+    const acct    = normaliseAcct(String(r[iAcct] || ''));
     const level   = String(r[iLevel]   || '').trim();
     return (country.includes('UNITED ARAB') || country.includes('UAE')) &&
            ACCTS.includes(acct) &&
@@ -2709,7 +2752,7 @@ function parseOverviewForCQ(ws) {
   // ── Eligible for C+ from column AO — rebuild ELIG_NAMES too ──
   const totProg = {elig: 0};
   ACCTS.forEach(key => {
-    const sub  = rows.filter(r => String(r[iAcct] || '').trim() === key);
+    const sub  = rows.filter(r => normaliseAcct(String(r[iAcct] || '')) === key);
     const elig = sub.filter(r => {
       const v = r[iElig];
       if (v == null || v === '') return false;
@@ -2719,7 +2762,6 @@ function parseOverviewForCQ(ws) {
     if (elig.length > 0) {
       D.byAcct[key].elig = elig.length;
       totProg.elig += elig.length;
-      // Rebuild ELIG_NAMES so popup always matches the count
       const iFirstName = hIdx(['First Name','FirstName','Name','Full Name']);
       const iLastName  = hIdx(['Last Name','LastName']);
       ELIG_NAMES[key] = elig.map(r => {
